@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pt
+*.avi
+*.mp4
+*.zip
+session.log
+refs/
+tracker_refs_*/
+tracker_rec_*/
+.pytest_cache/

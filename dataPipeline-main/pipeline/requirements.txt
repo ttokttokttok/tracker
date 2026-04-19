@@ -1,0 +1,4 @@
+byteplus-python-sdk-v2
+python-dotenv
+requests
+opencv-python-headless

@@ -1,0 +1,70 @@
+{
+  "runs": {
+    "columns": {
+      "id": { "type": "uuid", "primary": true, "default": "gen_random_uuid()" },
+      "name": { "type": "text", "nullable": false },
+      "status": { "type": "text", "nullable": false, "default": "'complete'" },
+      "target_object": { "type": "text", "nullable": false },
+      "action_label": { "type": "text", "nullable": false },
+      "source_video_count": { "type": "integer", "default": "1" },
+      "tracked_object_count": { "type": "integer", "default": "0" },
+      "synthetic_output_count": { "type": "integer", "default": "0" },
+      "duration_ms": { "type": "integer", "default": "0" },
+      "created_at": { "type": "timestamptz", "default": "now()" }
+    }
+  },
+  "pipelines": {
+    "columns": {
+      "id": { "type": "uuid", "primary": true, "default": "gen_random_uuid()" },
+      "run_id": { "type": "uuid", "nullable": false, "references": "runs.id" },
+      "label": { "type": "text", "nullable": false },
+      "status": { "type": "text", "nullable": false, "default": "'complete'" },
+      "video_url": { "type": "text" },
+      "video_filename": { "type": "text" },
+      "duration_ms": { "type": "integer" },
+      "video_width": { "type": "integer" },
+      "video_height": { "type": "integer" },
+      "detected_objects": { "type": "jsonb" },
+      "stage_status": { "type": "jsonb" },
+      "created_at": { "type": "timestamptz", "default": "now()" }
+    }
+  },
+  "tracks": {
+    "columns": {
+      "id": { "type": "uuid", "primary": true, "default": "gen_random_uuid()" },
+      "pipeline_id": { "type": "uuid", "nullable": false, "references": "pipelines.id" },
+      "label": { "type": "text", "nullable": false },
+      "track_type": { "type": "text", "nullable": false },
+      "color": { "type": "text" },
+      "frames": { "type": "jsonb", "nullable": false },
+      "created_at": { "type": "timestamptz", "default": "now()" }
+    }
+  },
+  "world_models": {
+    "columns": {
+      "id": { "type": "uuid", "primary": true, "default": "gen_random_uuid()" },
+      "pipeline_id": { "type": "uuid", "nullable": false, "references": "pipelines.id" },
+      "target_object": { "type": "text", "nullable": false },
+      "action_label": { "type": "text", "nullable": false },
+      "duration_ms": { "type": "integer" },
+      "objects": { "type": "jsonb" },
+      "actions": { "type": "jsonb" },
+      "relations": { "type": "jsonb" },
+      "created_at": { "type": "timestamptz", "default": "now()" }
+    }
+  },
+  "synthetic_outputs": {
+    "columns": {
+      "id": { "type": "uuid", "primary": true, "default": "gen_random_uuid()" },
+      "pipeline_id": { "type": "uuid", "nullable": false, "references": "pipelines.id" },
+      "run_id": { "type": "uuid", "nullable": false, "references": "runs.id" },
+      "label": { "type": "text", "nullable": false },
+      "status": { "type": "text", "nullable": false },
+      "provider": { "type": "text" },
+      "prompt": { "type": "text" },
+      "constraints": { "type": "jsonb" },
+      "video_url": { "type": "text" },
+      "created_at": { "type": "timestamptz", "default": "now()" }
+    }
+  }
+}

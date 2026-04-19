@@ -61,7 +61,7 @@ class TrackerApp(tk.Tk):
         self.state      = self.STATE_IDLE
         self.pipeline   = None
         self.label      = ""
-        self.cap        = cv2.VideoCapture(0)
+        self.cap        = cv2.VideoCapture(1)
         self.recording_frames: list[np.ndarray] = []
         self.recording_track_data: list[dict] = []
         self._photo_ref = None
@@ -645,6 +645,33 @@ class TrackerApp(tk.Tk):
 
 
 # ── Claude API intent parser ──────────────────────────────────────────────────
+
+# IonRouter option (ionrouter.io/playground) — routes to best available model
+# automatically; swap in by replacing the block below with:
+#
+# import requests
+# def _call_claude(text: str) -> tuple[str, str]:
+#     api_key = os.environ.get("IONROUTER_API_KEY", "")
+#     if not api_key:
+#         label = _naive_extract(text)
+#         return label, "(IonRouter API key not set — set IONROUTER_API_KEY)\nExtracted: '{label}'"
+#     resp = requests.post(
+#         "https://ionrouter.io/v1/chat/completions",
+#         headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+#         json={
+#             "messages": [
+#                 {"role": "system", "content": SYSTEM_PROMPT},
+#                 {"role": "user",   "content": text},
+#             ]
+#         },
+#         timeout=10,
+#     )
+#     raw = resp.json()["choices"][0]["message"]["content"].strip()
+#     label, reply = _naive_extract(text), raw
+#     for line in raw.splitlines():
+#         if line.upper().startswith("OBJECT:"): label = line.split(":",1)[1].strip().lower()
+#         elif line.upper().startswith("REPLY:"): reply = line.split(":",1)[1].strip()
+#     return label, reply
 
 def _call_claude(text: str) -> tuple[str, str]:
     """

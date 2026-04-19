@@ -19,7 +19,7 @@ def main():
     pipeline = Pipeline(session_id="demo_001", log_file="session.log")
     pipeline.begin_enrollment(label)
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     if not cap.isOpened():
         print("Error: could not open camera.")
         sys.exit(1)
